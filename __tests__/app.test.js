@@ -3,7 +3,7 @@ const db = require('../db/connection')
 const app = require('../app/app')
 const request = require('supertest')
 const seed = require('../db/seeds/seed')
-const fs = require('fs/promises')
+const endpointFile = require('../endpoints.json')
 
 beforeEach(()=>seed(testData))
 afterAll(()=>db.end)
@@ -31,11 +31,7 @@ describe('GET /api', () => {
         .expect(200)
         .then((response)=>{
             const {endpoints} = response.body
-            return fs.readFile('./endpoints.json', 'utf8')
-            .then((fileData)=>{
-                expect(endpoints).toEqual(JSON.parse(fileData))
-            })
-            
+            expect(endpoints).toEqual(endpointFile)
         })
         
     });

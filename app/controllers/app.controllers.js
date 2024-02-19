@@ -1,12 +1,10 @@
 const { fetchTopics, fetchEndpoints } = require('../models/app.models')
+const endpointList = require('../../endpoints.json')
 
 exports.getApi = (request, response)=>{
-    fetchEndpoints()
-    .then((result)=>{
-        response.status(200).send({endpoints: result})
-    })
-    
+    response.status(200).send({endpoints: endpointList})
 }
+
 
 exports.getTopics = (request, response)=>{
     fetchTopics()
