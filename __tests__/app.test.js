@@ -45,6 +45,13 @@ describe('GET /api/articles/:article_id', () => {
         .then((response)=>{
             const {article} = response.body
             expect(article).toHaveProperty('article_id', 1)
+            expect(article).toHaveProperty('title')
+            expect(article).toHaveProperty('topic')
+            expect(article).toHaveProperty('author')
+            expect(article).toHaveProperty('body')
+            expect(article).toHaveProperty('created_at')
+            expect(article).toHaveProperty('votes')
+            
         })
     });
     it('should respond with 404 if there is no article with the given id', () => {
