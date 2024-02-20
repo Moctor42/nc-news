@@ -3,7 +3,7 @@ const db = require('../db/connection')
 const app = require('../app/app')
 const request = require('supertest')
 const seed = require('../db/seeds/seed')
-
+const endpointFile = require('../endpoints.json')
 
 beforeEach(()=>seed(testData))
 afterAll(()=>db.end)
@@ -21,5 +21,18 @@ describe('GET /api/topics', () => {
                 expect(topic).toHaveProperty('description');
             });            
         })
+    });
+});
+
+describe('GET /api', () => {
+    it('should respond with all other endpoints and their description', () => {
+        return request(app)
+        .get('/api')
+        .expect(200)
+        .then((response)=>{
+            const {endpoints} = response.body
+            expect(endpoints).toEqual(endpointFile)
+        })
+        
     });
 });
