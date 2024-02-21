@@ -108,7 +108,7 @@ describe('GET /api/articles/:article_id/comments', () => {
         .get('/api/articles/1/comments')
         .expect(200)
         .then((response)=>{
-            const comments = response.body.comments.rows
+            const {comments} = response.body
             expect(comments).toHaveLength(11)
                 comments.forEach((comment) => {
                     expect(comment).toHaveProperty('comment_id')
@@ -125,11 +125,20 @@ describe('GET /api/articles/:article_id/comments', () => {
         .get('/api/articles/1/comments')
         .expect(200)
         .then((response)=>{
-            const comments = response.body.comments.rows
+            const {comments} = response.body
             expect(comments).toBeSortedBy('created_at', {descending: true})
         })
     });
-    it('should 404 if a comment number is not found', () => {
+    it('should still send 200 if there are no comments and an empty array is returned', () => {
+        return request(app)
+        .get('/api/articles/4/comments')
+        .expect(200)
+        .then((response)=>{
+            const {comments} = response.body
+            expect(comments).toHaveLength(0)
+        })
+    });
+    it('should 404 if an article is not found', () => {
         return request(app)
             .get('/api/articles/1000/comments')
             .expect(404)
