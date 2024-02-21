@@ -31,8 +31,8 @@
     "parameter": "article_id",
     "exampleResponse": {
       "article": {
-          "article_id": 1,
-          "title": "Seafood substitutions are increasing",
+        "article_id": 1,
+        "title": "Seafood substitutions are increasing",
           "topic": "cooking",
           "author": "weegembump",
           "body": "Text from the article..",

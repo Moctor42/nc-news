@@ -147,3 +147,82 @@ describe('GET /api/articles/:article_id/comments', () => {
     })
 })
 
+describe('POST /api/articles/:article_id/comments', () => {
+    it('should add a comment to an article and respond with the posted comment', () => {
+        return request(app)
+        .post('/api/articles/3/comments')
+        .send({
+            username: 'butter_bridge',
+            body: 'comment body test'
+        })
+        .expect(201)
+        .then((response)=>{
+            const comment = response.body.comment
+            expect(comment).toHaveProperty('comment_id')
+            expect(comment).toHaveProperty('votes')
+            expect(comment).toHaveProperty('created_at')
+            expect(comment).toHaveProperty('author')
+            expect(comment).toHaveProperty('body', 'comment body test')
+            expect(comment).toHaveProperty('article_id', 3)
+        })
+    });
+    it('should respond with 404 if there is no article with the given id', () => {
+        return request(app)
+            .post('/api/articles/100/comments')
+            .send({
+                username: 'butter_bridge',
+                body: 'comment body test'
+            })
+            .expect(404)
+            .then((response) => {
+                expect(response.body.msg).toBe('article not found')
+            })
+    })
+    it('should respond with 400 if the given param is not a valid argument', () => {
+        return request(app)
+            .post('/api/articles/lawnmower/comments')
+            .send({
+                username: 'butter_bridge',
+                body: 'comment body test'
+            })
+            .expect(400)
+            .then((response) => {
+                expect(response.body.msg).toBe('bad request')
+            })
+    })
+    it('should 404 if the user is not found', () => {
+        return request(app)
+        .post('/api/articles/3/comments')
+        .send({
+            username: 'nonexistant_guy',
+            body: 'comment body test'
+        })
+        .expect(404)
+        .then((response)=>{
+            expect(response.body.msg).toBe('user not found')
+        })
+    });
+    it('should 400 if user property is missing', () => {
+        return request(app)
+        .post('/api/articles/3/comments')
+        .send({
+            body: 'lonesome comment'
+        })
+        .expect(400)
+        .then((response)=>{
+            expect(response.body.msg).toBe('missing property')
+        })
+    });
+    it('should 400 if comment body property is missing', () => {
+        return request(app)
+        .post('/api/articles/3/comments')
+        .send({
+            username: 'butter_bridge'
+        })
+        .expect(400)
+        .then((response)=>{
+            expect(response.body.msg).toBe('missing property')
+        })
+    });
+});
+
