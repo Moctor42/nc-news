@@ -235,3 +235,58 @@ describe('POST /api/articles/:article_id/comments', () => {
     });
 });
 
+describe('PATCH /api/articles/:article_id', () => {
+    it('should update the given articles vote count using the sent object, then return the article', () => {
+        return request(app)
+        .patch('/api/articles/1')
+        .send({ inc_votes: 1 })
+        .expect(200)
+        .then((response)=>{
+            const {article} = response.body
+            expect(article).toHaveProperty('article_id')
+            expect(article).toHaveProperty('title')
+            expect(article).toHaveProperty('topic')
+            expect(article).toHaveProperty('author')
+            expect(article).toHaveProperty('created_at')
+            expect(article).toHaveProperty('votes', 101)
+        })
+    });
+    it('should respond with 404 if there is no article with the given id', () => {
+        return request(app)
+            .patch('/api/articles/100')
+            .send({ inc_votes: 1 })
+            .expect(404)
+            .then((response) => {
+                expect(response.body.msg).toBe('article not found')
+            })
+    })
+    it('should respond with 400 if the given param is not a valid argument', () => {
+        return request(app)
+            .patch('/api/articles/lawnmower')
+            .send({ inc_votes: 1 })
+            .expect(400)
+            .then((response) => {
+                expect(response.body.msg).toBe('bad request')
+            })
+    })
+    it('should not accept votes that are not an integer', () => {
+        return request(app)
+            .patch('/api/articles/1')
+            .send({ inc_votes: 1.25 })
+            .expect(400)
+            .then((response) => {
+                console.log(response.body);
+                expect(response.body.msg).toBe('bad request')
+            })
+    });
+    it('should 400 if there is no inc_votes property', () => {
+        return request(app)
+            .patch('/api/articles/1')
+            .send({ votes: 2 })
+            .expect(400)
+            .then((response) => {
+                console.log(response.body);
+                expect(response.body.msg).toBe('missing property')
+            })
+    });
+});
