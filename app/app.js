@@ -3,7 +3,7 @@ const app = express()
 const endpoints = require('../endpoints.json')
 // controllers
 const { getTopics, getApi } = require('./controllers/app.controllers')
-const { getArticleById, getArticles } = require('./controllers/articles.controller')
+const { getArticleById, getArticles, getCommentsByArticleId } = require('./controllers/articles.controller')
 const { error404, error400, psqlError, errorCatcher } = require('./error_handling')
 
 app.get('/api', getApi)
@@ -13,6 +13,8 @@ app.get('/api/topics', getTopics)
 app.get('/api/articles/:article_id', getArticleById)
 
 app.get('/api/articles', getArticles)
+
+app.get('/api/articles/:article_id/comments', getCommentsByArticleId)
 
 
 
