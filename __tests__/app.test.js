@@ -51,6 +51,8 @@ describe('GET /api/articles/:article_id', () => {
                 expect(article).toHaveProperty('body')
                 expect(article).toHaveProperty('created_at')
                 expect(article).toHaveProperty('votes')
+                expect(article).toHaveProperty('comment_count', 11)
+
             })
     })
     it('should respond with 404 if there is no article with the given id', () => {
