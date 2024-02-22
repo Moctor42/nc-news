@@ -91,5 +91,11 @@
           "votes": 20
         }
     }
+  },
+  "PATCH /api/comments/:comment_id": {
+    "description": "deletes the specified comment",
+    "parameter": "comment_id"
   }
 }
+
+
