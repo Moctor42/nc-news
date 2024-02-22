@@ -233,6 +233,17 @@ describe('POST /api/articles/:article_id/comments', () => {
             expect(response.body.msg).toBe('missing property')
         })
     });
+    it('should ignore any extra properties', () => {
+        return request(app)
+        .post('/api/articles/3/comments')
+        .send({
+            username: 'butter_bridge',
+            body: 'comment body test',
+            extremely_evil_property: 'hack the database >:)'
+        })
+        .expect(201)
+    });
+
 });
 
 describe('PATCH /api/articles/:article_id', () => {
@@ -312,3 +323,20 @@ describe('DELETE /api/comments/:comment_id', () => {
             })
     })
 });
+
+describe('GET /api/users', () => {
+    it('should respond with an array of all users', () => {
+        return request(app)
+            .get('/api/users')
+            .expect(200)
+            .then((response) => {
+                const {users} = response.body
+                    users.forEach((user)=>{
+                        expect(user).toHaveProperty('username')
+                        expect(user).toHaveProperty('name')
+                        expect(user).toHaveProperty('avatar_url')
+                    })
+            })
+    });
+});
+
