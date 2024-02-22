@@ -5,4 +5,7 @@ exports.getUsers = (request, response, next)=>{
     .then((result)=>{
         response.status(200).send({users: result})
     })
+    .catch((error)=>{
+        next(error)
+    })
 }
