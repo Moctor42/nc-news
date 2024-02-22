@@ -1,14 +1,21 @@
 const express = require('express')
 const app = express()
 const endpoints = require('../endpoints.json')
+
 // controllers
 const { getTopics, getApi } = require('./controllers/app.controllers')
 const { getArticleById, getArticles, getCommentsByArticleId, postCommentByArticleId, patchArticleById } = require('./controllers/articles.controller')
 const { deleteCommentById } = require('./controllers/comments.controller')
+const { getUsers } = require('./controllers/users.controller')
 
+//error handlers
 const { error404, error400, psqlError, errorCatcher } = require('./error_handling')
 
+//---
+
 app.use(express.json())
+
+//endpoints
 
 app.get('/api', getApi)
 
@@ -26,9 +33,10 @@ app.patch('/api/articles/:article_id', patchArticleById)
 
 app.delete('/api/comments/:comment_id', deleteCommentById)
 
+app.get('/api/users', getUsers)
 
 
-// error handling
+// error handling 
 
 app.use(error404)
 
