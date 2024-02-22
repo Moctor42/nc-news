@@ -275,7 +275,6 @@ describe('PATCH /api/articles/:article_id', () => {
             .send({ inc_votes: 1.25 })
             .expect(400)
             .then((response) => {
-                console.log(response.body);
                 expect(response.body.msg).toBe('bad request')
             })
     });
@@ -285,8 +284,31 @@ describe('PATCH /api/articles/:article_id', () => {
             .send({ votes: 2 })
             .expect(400)
             .then((response) => {
-                console.log(response.body);
                 expect(response.body.msg).toBe('missing property')
             })
     });
+});
+
+describe('DELETE /api/comments/:comment_id', () => {
+    it('should delete the given comment by comment id and respond with 204', () => {
+        return request(app)
+        .delete('/api/comments/1')
+        .expect(204)
+    });
+    it('should respond with 404 if there is no comment with the given id', () => {
+        return request(app)
+            .delete('/api/comments/10000')
+            .expect(404)
+            .then((response) => {
+                expect(response.body.msg).toBe('comment not found')
+            })
+    })
+    it('should respond with 400 if the given param is not a valid argument', () => {
+        return request(app)
+            .delete('/api/comments/lawnmower')
+            .expect(400)
+            .then((response) => {
+                expect(response.body.msg).toBe('bad request')
+            })
+    })
 });
