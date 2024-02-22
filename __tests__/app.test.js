@@ -77,7 +77,7 @@ describe('GET /api/articles', () => {
             .get('/api/articles')
             .expect(200)
             .then((response) => {
-                const articles = response.body.articles.rows
+                const {articles} = response.body
                 expect(articles).toHaveLength(13)
                 articles.forEach((article) => {
                     expect(article).not.toHaveProperty('body')
@@ -96,10 +96,36 @@ describe('GET /api/articles', () => {
             .get('/api/articles')
             .expect(200)
             .then((response) => {
-                const articles = response.body.articles.rows
+                const {articles} = response.body
                 expect(articles).toBeSortedBy('created_at', { descending: false })
             })
     })
+    it('should accept a topic query which filters the articles by the given topic', () => {
+        return request(app)
+        .get('/api/articles?topic=cats')
+        .expect(200)
+        .then((response)=>{
+            const {articles} = response.body
+            expect(articles).toHaveLength(1)
+        })
+    });
+    it('should respond with 404 if the topic does not exist in the database', () => {
+        return request(app)
+        .get('/api/articles?topic=uhhhhhh')
+        .expect(404)
+        .then((response)=>{
+            expect(response.body.msg).toBe('topic not found')
+        })
+    });
+    it('should still respond with an empty array if no topics are found with a valid topic', () => {
+        return request(app)
+        .get('/api/articles?topic=paper')
+        .expect(200)
+        .then((response)=>{
+            const {articles} = response.body
+            expect(articles).toHaveLength(0)
+        })
+    });
 })
 
 describe('GET /api/articles/:article_id/comments', () => {

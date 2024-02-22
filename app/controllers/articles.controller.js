@@ -4,7 +4,7 @@ exports.getArticleById = (request, response, next)=>{
     const {article_id} = request.params
     fetchArticleById(article_id)
     .then((result)=>{
-        response.status(200).send({article: result.rows[0]})
+        response.status(200).send({article: result})
     })
     .catch((error)=>{
         next(error)
@@ -12,7 +12,8 @@ exports.getArticleById = (request, response, next)=>{
 }
 
 exports.getArticles = (request, response, next)=>{
-    fetchArticles()
+    const {query} = request
+    fetchArticles(query)
     .then((result)=>{
         response.status(200).send({articles: result})
     })

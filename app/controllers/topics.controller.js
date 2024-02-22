@@ -1,4 +1,4 @@
-const { fetchTopics } = require('../models/app.models')
+const { fetchTopics } = require('../models/topics.model')
 const endpointList = require('../../endpoints.json')
 
 exports.getApi = (request, response)=>{
