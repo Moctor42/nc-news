@@ -24,8 +24,27 @@ exports.fetchArticleById = (article_id)=>{
 }
 
 exports.fetchArticles = (query)=>{
-    const {topic} = query
+    let {topic, sort_by} = query
+
+    //defaults
+
+    if(!sort_by){
+    sort_by = 'created_at'
+    }
+
+    //greenlist
     const queryValues = []
+    const greenlist = [
+        'article_id',
+        'title',
+        'topic',
+        'author',
+        'created_at',
+        'votes'
+    ]
+    if(!greenlist.includes(sort_by)){
+        return Promise.reject({status: 400, msg: `${sort_by} is not a valid sort query`})
+    }
     
     return db.query(`SELECT slug FROM topics WHERE slug = $1;`, [topic])
     .then(({rows})=>{
@@ -58,10 +77,13 @@ exports.fetchArticles = (query)=>{
             queryStr += `WHERE articles.topic = $1 `
         }
 
-        queryStr += `
-        GROUP BY articles.article_id
-        ORDER BY created_at;
-        `
+        queryStr += `GROUP BY articles.article_id `
+        
+
+
+        queryStr += `ORDER BY ${sort_by};`
+
+        console.log(queryStr);
 
         return db.query(queryStr, queryValues)
     })
