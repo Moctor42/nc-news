@@ -1,11 +1,21 @@
 # Northcoders News API
 
-env files need to be made inside be-nc-news for both test and dev if you wish to run this locally.
+site hosted at:
+> https://nc-news-8n39.onrender.com/api
 
-env.test must contain:
+=======================================================
 
-PGDATABASE=nc_news_test
+// put install instructions here
 
-and env.development must contain:
+=======================================================
 
-PGDATABASE=nc_news
+env files need to be made inside be-nc-news if you wish to run this locally.
+
+- env.test must contain:
+
+> PGDATABASE=nc_news_test
+
+- env.development must contain:
+
+> PGDATABASE=nc_news
+
