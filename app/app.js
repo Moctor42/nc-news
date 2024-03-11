@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const endpoints = require('../endpoints.json')
+const cors = require('cors')
 
 // controllers
 const { getTopics, getApi } = require('./controllers/topics.controller')
@@ -13,6 +14,7 @@ const { error404, error400, psqlError, errorCatcher } = require('./error_handlin
 
 //---
 
+app.use(cors())
 app.use(express.json())
 
 //endpoints
