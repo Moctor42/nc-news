@@ -24,17 +24,21 @@ exports.fetchArticleById = (article_id)=>{
 }
 
 exports.fetchArticles = (query)=>{
-    let {topic, sort_by} = query
+    let {topic, sort_by, order} = query
 
     //defaults
 
     if(!sort_by){
-    sort_by = 'created_at'
+        sort_by = 'created_at'
+    }
+
+    if(!order){
+        order = 'asc'
     }
 
     //greenlist
     const queryValues = []
-    const greenlist = [
+    const sortByGreenlist = [
         'article_id',
         'title',
         'topic',
@@ -42,8 +46,18 @@ exports.fetchArticles = (query)=>{
         'created_at',
         'votes'
     ]
-    if(!greenlist.includes(sort_by)){
+
+    const orderGreenlist = [
+        'asc',
+        'desc'
+    ]
+
+
+    if(!sortByGreenlist.includes(sort_by)){
         return Promise.reject({status: 400, msg: `${sort_by} is not a valid sort query`})
+    }
+    if(!orderGreenlist.includes(order)){
+        return Promise.reject({status: 400, msg: `${order} is not a valid order query`})
     }
     
     return db.query(`SELECT slug FROM topics WHERE slug = $1;`, [topic])
@@ -81,9 +95,8 @@ exports.fetchArticles = (query)=>{
         
 
 
-        queryStr += `ORDER BY ${sort_by};`
+        queryStr += `ORDER BY ${sort_by} ${order};`
 
-        console.log(queryStr);
 
         return db.query(queryStr, queryValues)
     })
