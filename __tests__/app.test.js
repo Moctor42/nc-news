@@ -128,6 +128,23 @@ describe('GET /api/articles', () => {
             expect(articles).toHaveLength(0)
         })
     });
+    it('should also accept a sort_by query that sorts by any valid column (defaults to date)', () => {
+        return request(app)
+        .get('/api/articles?sort_by=article_id')
+        .expect(200)
+        .then((response)=>{
+            const {articles} = response.body
+            expect(articles).toBeSortedBy('article_id')
+        })
+    });
+    it('should respond with 400 if the sort query is invalid', () => {
+        return request(app)
+        .get('/api/articles?sort_by=password')
+        .expect(400)
+        .then((response)=>{
+            expect(response.body.msg).toBe('password is not a valid sort query')
+        })
+    });
 })
 
 describe('GET /api/articles/:article_id/comments', () => {
