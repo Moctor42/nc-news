@@ -151,7 +151,6 @@ describe('GET /api/articles', () => {
         .expect(200)
         .then((response)=>{
             const {articles} = response.body
-            console.log(articles);
             expect(articles).toBeSortedBy('created_at', {descending: true})
         })
     });
