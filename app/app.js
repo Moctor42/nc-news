@@ -14,8 +14,8 @@ const { error404, error400, psqlError, errorCatcher } = require('./error_handlin
 
 //---
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 //endpoints
 

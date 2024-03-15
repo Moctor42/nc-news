@@ -29,7 +29,6 @@ exports.psqlError = (error, request, response, next)=>{
 }
 
 exports.errorCatcher = (error, request, response, next)=>{
-    console.log(error);
     response.status(500).send(error)
 
 }
