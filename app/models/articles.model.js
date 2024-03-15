@@ -24,6 +24,7 @@ exports.fetchArticleById = (article_id)=>{
 }
 
 exports.fetchArticles = (query)=>{
+    console.log(query);
     let {topic, sort_by, order} = query
 
     //defaults
@@ -44,7 +45,8 @@ exports.fetchArticles = (query)=>{
         'topic',
         'author',
         'created_at',
-        'votes'
+        'votes',
+        'comment_count'
     ]
 
     const orderGreenlist = [
@@ -96,7 +98,7 @@ exports.fetchArticles = (query)=>{
 
 
         queryStr += `ORDER BY ${sort_by} ${order};`
-
+        console.log(queryStr, "querystring!!!");
 
         return db.query(queryStr, queryValues)
     })

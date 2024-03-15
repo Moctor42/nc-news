@@ -145,13 +145,14 @@ describe('GET /api/articles', () => {
             expect(response.body.msg).toBe('password is not a valid sort query')
         })
     });
-    xit('should accept an order query that can be set to asc or desc', () => {
+    it('should accept an order query that can be set to asc or desc', () => {
         return request(app)
         .get('/api/articles?order=desc')
         .expect(200)
         .then((response)=>{
             const {articles} = response.body
-            expect(articles).toBeSortedBy('article_id', {descending: true})
+            console.log(articles);
+            expect(articles).toBeSortedBy('created_at', {descending: true})
         })
     });
 })
