@@ -1,21 +1,29 @@
 # Northcoders News API
 
-site hosted at:
+### site hosted at:
 > https://nc-news-8n39.onrender.com/api
 
-=======================================================
+---
 
-// put install instructions here
+### Installation
 
-=======================================================
+requires at least node **21.5.0** and psql **14.11**  
+if you wish to run this locally clone this repo, then:  
 
-env files need to be made inside be-nc-news if you wish to run this locally.
+`npm install`  
+`npm run setup-dbs`  
 
-- env.test must contain:
+>create two .env files inside /be-nc-news before seeding
+>
+>.env.test containing:  
+>`PGDATABASE=nc_news_test`
+>
+>.env.development containing:  
+>`PGDATABASE=nc_news`
 
-> PGDATABASE=nc_news_test
+`npm run seed`
 
-- env.development must contain:
 
-> PGDATABASE=nc_news
+
+
 
