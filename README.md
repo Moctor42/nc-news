@@ -1,7 +1,10 @@
 # Northcoders News API
 
-### site hosted at:
-> https://nc-news-8n39.onrender.com/api
+API hosted at:  
+https://nc-news-8n39.onrender.com/api
+
+The Front-end repo for this project:  
+https://github.com/Moctor42/nc-news-frontend
 
 ---
 
