@@ -8,6 +8,11 @@ https://github.com/Moctor42/nc-news-frontend
 
 ---
 
+NC News site backend project.  
+Uses ElephantSQL and Render to host database and API. 
+
+---
+
 ### Installation
 
 requires at least node **21.5.0** and psql **14.11**  
